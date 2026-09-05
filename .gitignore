@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# C and C++ build output
+build/
+bin/
+*.o
+*.out
+
+# ML data and checkpoints
+data/
+datasets/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+wandb/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Profiling output
+*.nsys-rep
+*.ncu-rep
