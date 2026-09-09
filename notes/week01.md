@@ -308,4 +308,41 @@ The main principle is:
 date - 2026-09-09
 
 # before running the benchmarks , i'm predicting that the higest memory will be approximately roGB/s.....This is abt 58% of the estimated theoritacl 68.3 GB/s .
-i'm measuring now......
+
+### Method
+
+I measured sequential-read memory bandwidth using sysbench 1.0.20 under WSL2:
+
+```bash
+sysbench memory --threads=<count> --memory-block-size=64M --memory-total-size=100G --memory-scope=local --memory-oper=read --memory-access-mode=seq run
+
+### Results
+
+I measured sequential-read memory bandwidth using sysbench 1.0.20 under WSL2. Each test used a 64 MiB working block and transferred 100 GiB of data.
+
+| Threads | Run 1 | Run 2 | Run 3 | Average |
+|---:|---:|---:|---:|---:|
+| 1 | 12.97 GB/s | 13.30 GB/s | 13.14 GB/s | 13.14 GB/s |
+| 2 | 22.76 GB/s | 23.50 GB/s | 23.41 GB/s | 23.22 GB/s |
+| 4 | 34.74 GB/s | 37.80 GB/s | 37.78 GB/s | 36.77 GB/s |
+| 8 | 44.11 GB/s | 48.29 GB/s | 47.57 GB/s | 46.66 GB/s |
+
+The best observed bandwidth was **48.29 GB/s**, which is approximately 70.7% of the theoretical 68.3 GB/s.
+
+The controlled average of runs 2 and 3 at eight threads was **47.93 GB/s**.
+
+During runs 2 and 3, other applications were closed and only VS Code with WSL remained open. This likely explains why the later measurements were faster.
+
+The measured Roofline crossover point is:
+
+\[
+I_{\text{ridge}}=\frac{614.4}{48.29}\approx12.7\text{ FLOPs/byte}
+\]
+
+Workloads below approximately 12.7 FLOPs/byte are expected to be memory-bound. Workloads above it may become compute-bound.
+
+### What surprised me
+
+Increasing the thread count increased memory bandwidth, but eight threads did not provide eight times the one-thread bandwidth. All threads share the same memory system, so scaling weakened as memory approached saturation.
+
+My initial maximum-bandwidth prediction was 40 GB/s. After seeing the lower-thread results, I predicted 44 GB/s for eight threads. The best measured result was 48.29 GB/s.
