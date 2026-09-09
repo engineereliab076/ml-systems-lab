@@ -301,3 +301,11 @@ The main principle is:
 - Estimated FP32 compute ceiling: **614.4 GFLOP/s**
 - Estimated theoretical memory bandwidth: **68.3 GB/s**
 - Actual compute and memory performance: **not measured yet**
+
+
+## Day 2 — Memory-Bandwidth Measurement
+
+date - 2026-09-09
+
+# before running the benchmarks , i'm predicting that the higest memory will be approximately roGB/s.....This is abt 58% of the estimated theoritacl 68.3 GB/s .
+i'm measuring now......
